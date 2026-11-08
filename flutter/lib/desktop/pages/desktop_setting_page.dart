@@ -2573,7 +2573,7 @@ class _AboutState extends State<_About> {
       final scrollController = ScrollController();
       return SingleChildScrollView(
         controller: scrollController,
-        child: _Card(title: translate('About DeskNegar'), children: [
+        child: _Card(title: translate('About NotaDesk'), children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -2617,7 +2617,7 @@ class _AboutState extends State<_About> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'DeskNegar (دسک‌نگار) - سامانه مدیریت ارتباط از راه دور\nحق نشر © ${DateTime.now().year} محفوظ است.',
+                            'NotaDesk (نوتادسک) - سامانه مدیریت ارتباط از راه دور دفاتر اسناد رسمی\nحق نشر © ${DateTime.now().year} محفوظ است.',
                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 6),

@@ -1178,8 +1178,8 @@ pub async fn do_check_software_update() -> hbb_common::ResultType<()> {
 #[inline]
 pub fn get_app_name() -> String {
     let name = hbb_common::config::APP_NAME.read().unwrap().clone();
-    if name == "RustDesk" || name.is_empty() {
-        "DeskNegar".to_string()
+    if name == "RustDesk" || name == "DeskNegar" || name.is_empty() {
+        "NotaDesk".to_string()
     } else {
         name
     }

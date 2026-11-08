@@ -1,10 +1,10 @@
-name: Build DeskNegar (Windows x64)
+name: Build NotaDesk (Windows x64)
 
 on:
   workflow_dispatch:
     inputs:
       create_release:
-        description: 'Create a GitHub Release with DeskNegar.exe'
+        description: 'Create a GitHub Release with NotaDesk.exe'
         type: boolean
         default: true
       release_tag:
@@ -38,8 +38,8 @@ jobs:
       platform: x64
       target_version: Windows10
 
-  build-desknegar-windows:
-    name: Build DeskNegar Windows (x86_64)
+  build-notadesk-windows:
+    name: Build NotaDesk Windows (x86_64)
     needs: [build-RustDeskTempTopMostWindow, generate-bridge]
     runs-on: windows-2022
     permissions:
@@ -129,7 +129,7 @@ jobs:
           fi
         shell: bash
 
-      - name: Build DeskNegar
+      - name: Build NotaDesk
         run: |
           python3 .\build.py --portable --flutter --skip-portable-pack --hwcodec --vram
           mv ./flutter/build/windows/x64/runner/Release ./rustdesk
@@ -147,7 +147,7 @@ jobs:
           name: topmostwindow-artifacts-x64
           path: "./rustdesk"
 
-      - name: Build self-extracted single executable (DeskNegar.exe)
+      - name: Build self-extracted single executable (NotaDesk.exe)
         shell: bash
         run: |
           sed -i '/dpiAware/d' res/manifest.xml
@@ -156,22 +156,22 @@ jobs:
           python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
           popd
           mkdir -p ./Output
-          mv ./target/release/rustdesk-portable-packer.exe ./Output/DeskNegar.exe
+          mv ./target/release/rustdesk-portable-packer.exe ./Output/NotaDesk.exe
           ls -la ./Output/
 
-      - name: Upload DeskNegar.exe Artifact
+      - name: Upload NotaDesk.exe Artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: DeskNegar-Windows-x64
-          path: ./Output/DeskNegar.exe
+          name: NotaDesk-Windows-x64
+          path: ./Output/NotaDesk.exe
           if-no-files-found: error
 
       - name: Create GitHub Release
         if: ${{ inputs.create_release }}
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
-          name: "DeskNegar ${{ inputs.release_tag }}"
+          name: "NotaDesk ${{ inputs.release_tag }}"
           tag_name: ${{ inputs.release_tag }}
-          files: ./Output/DeskNegar.exe
+          files: ./Output/NotaDesk.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

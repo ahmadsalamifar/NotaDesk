@@ -1,4 +1,4 @@
-if (is_osx) view.windowBlurbehind = #light;
+﻿if (is_osx) view.windowBlurbehind = #light;
 stdout.println("current platform:", OS);
 stdout.println("is_xfce: ", is_xfce);
 
@@ -98,7 +98,7 @@ class ConnectStatus: Reactor.Component {
 }
 
 function createNewConnect(id, type) {
-    id = id.replace(/\s/g, "");
+    id = id.replace(/[\s-]/g, "");
     app.remote_id.value = formatId(id);
     if (!id) return;
     var old_id = id;
@@ -1293,13 +1293,13 @@ class ID: Reactor.Component {
 
 var reg = /^\d+$/;
 function formatId(id) {
-    id = id.replace(/\s/g, "");
+    id = id.replace(/[\s-]/g, "");
     if (reg.test(id) && id.length > 3) {
         var n = id.length;
         var a = n % 3 || 3;
         var new_id = id.substr(0, a);
         for (var i = a; i < n; i += 3) {
-            new_id += " " + id.substr(i, 3);
+            new_id += "-" + id.substr(i, 3);
         }
         return new_id;
     }

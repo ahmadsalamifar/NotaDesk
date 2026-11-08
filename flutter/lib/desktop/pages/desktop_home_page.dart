@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
@@ -252,6 +252,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                       child: TextFormField(
                         controller: model.serverId,
                         readOnly: true,
+                        textDirection: TextDirection.ltr,
+                        textAlign: TextAlign.left,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: 10, bottom: 10),
@@ -379,6 +381,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                           child: TextFormField(
                             controller: model.serverPasswd,
                             readOnly: true,
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.left,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               contentPadding:

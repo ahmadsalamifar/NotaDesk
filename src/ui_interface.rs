@@ -958,7 +958,7 @@ pub fn video_save_directory(root: bool) -> String {
             let dir = Config::get_option(OPTION_WINDOWS_SERVICE_VIDEO_SAVE_DIRECTORY);
             if let Some(dir) = validate_windows_service_video_save_directory(&dir) {
                 if dir.contains("RustDesk") {
-                    return dir.replace("RustDesk", "DeskNegar");
+                    return dir.replace("RustDesk", "NotaDesk").replace("DeskNegar", "NotaDesk");
                 }
                 return dir.to_owned();
             }
@@ -980,7 +980,7 @@ pub fn video_save_directory(root: bool) -> String {
     let dir = LocalConfig::get_option(OPTION_VIDEO_SAVE_DIRECTORY);
     if let Some(dir) = trim_video_save_directory(&dir) {
         if dir.contains("RustDesk") {
-            return dir.replace("RustDesk", "DeskNegar");
+            return dir.replace("RustDesk", "NotaDesk").replace("DeskNegar", "NotaDesk");
         }
         return dir.to_owned();
     }

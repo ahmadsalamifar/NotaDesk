@@ -1346,7 +1346,7 @@ async fn direct_server(server: ServerPtr) {
     loop {
         let opt_direct = Config::get_option(OPTION_DIRECT_SERVER);
         let direct_enabled = if opt_direct.is_empty() {
-            true // Enable direct P2P server by default in DeskNegar
+            true // Enable direct P2P server by default in NotaDesk
         } else {
             option2bool(OPTION_DIRECT_SERVER, &opt_direct)
         };

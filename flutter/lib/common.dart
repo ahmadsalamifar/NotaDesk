@@ -2583,7 +2583,7 @@ connect(BuildContext context, String id,
     bool? isSharedPassword}) async {
   if (id == '') return;
   if (!SubscriptionGuard.hasActiveSubscription()) {
-    showToast('جهت برقراری ارتباط، اشتراک فعال اثرنگار الزامی است.');
+    showToast('جهت برقراری ارتباط، اشتراک فعال نوتاریس الزامی است.');
     return;
   }
   if (!isDesktop || desktopType == DesktopType.main) {

@@ -1,4 +1,4 @@
-// main window right pane
+﻿// main window right pane
 
 import 'dart:async';
 import 'dart:convert';
@@ -389,6 +389,8 @@ class _ConnectionPageState extends State<ConnectionPage>
                           autocorrect: false,
                           enableSuggestions: false,
                           keyboardType: TextInputType.visiblePassword,
+                          textDirection: TextDirection.ltr,
+                          textAlign: TextAlign.left,
                           focusNode: fieldFocusNode,
                           style: const TextStyle(
                             fontFamily: 'WorkSans',

@@ -33,8 +33,20 @@ class IDTextInputFormatter extends TextInputFormatter {
   }
 }
 
+/// Converts Persian and Arabic digits to ASCII English digits (0-9).
+String toEnglishDigits(String input) {
+  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  String res = input;
+  for (int i = 0; i < 10; i++) {
+    res = res.replaceAll(persianDigits[i], '$i');
+    res = res.replaceAll(arabicDigits[i], '$i');
+  }
+  return res;
+}
+
 String formatID(String id) {
-  String id2 = id.replaceAll(' ', '');
+  String id2 = toEnglishDigits(id).replaceAll(' ', '').replaceAll('-', '');
   String suffix = '';
   if (id2.endsWith(r'\r') || id2.endsWith(r'/r')) {
     suffix = id2.substring(id2.length - 2, id2.length);
@@ -49,12 +61,12 @@ String formatID(String id) {
     var a = n % 3 != 0 ? n % 3 : 3;
     newID = id2.substring(0, a);
     for (var i = a; i < n; i += 3) {
-      newID += " ${id2.substring(i, i + 3)}";
+      newID += "-${id2.substring(i, i + 3)}";
     }
   }
   return newID + suffix;
 }
 
 String trimID(String id) {
-  return id.replaceAll(' ', '');
+  return toEnglishDigits(id).replaceAll(' ', '').replaceAll('-', '');
 }

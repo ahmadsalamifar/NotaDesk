@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 /// Handles P2P direct discovery and broker interaction with WordPress backend.
-/// Enables direct connection between DeskNegar instances without external relay servers.
+/// Enables direct connection between NotaDesk instances without external relay servers.
 class P2PBroker {
   static const String baseUrl = 'https://salamifar.ir/wp-json/asar-negar/v1';
   static String _lastRegisteredId = '';

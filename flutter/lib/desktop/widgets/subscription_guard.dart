@@ -4,14 +4,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 /// Service responsible for validating whether the host machine holds
-/// an active, unexpired AsarNegar subscription before granting access to DeskNegar.
+/// an active, unexpired Notaris subscription before granting access to NotaDesk.
 /// Follows the Single Responsibility Principle.
 class SubscriptionGuard {
   SubscriptionGuard._();
 
   /// Validates the existence and validity of the AsarNegar license token.
-  /// Checks %APPDATA%\DeskNegar\config\asarnegar_license.token,
-  /// falling back to %APPDATA%\AsarNegar\asarnegar_license.token.
+  /// Checks %APPDATA%\NotaDesk\config\notaris_license.token,
+  /// falling back to legacy DeskNegar / AsarNegar paths.
   static bool hasActiveSubscription() {
     try {
       final appData = Platform.environment['APPDATA'];
@@ -19,18 +19,19 @@ class SubscriptionGuard {
         return false;
       }
 
-      // 1. Primary path in DeskNegar configuration directory
-      final primaryFile = File('$appData/DeskNegar/config/asarnegar_license.token');
-      if (primaryFile.existsSync()) {
-        if (_isTokenValid(primaryFile)) {
-          return true;
-        }
-      }
+      // Candidate paths prioritizing modern NotaDesk/Notaris with backward compatibility
+      final candidatePaths = [
+        '$appData/NotaDesk/config/notaris_license.token',
+        '$appData/NotaDesk/config/asarnegar_license.token',
+        '$appData/DeskNegar/config/notaris_license.token',
+        '$appData/DeskNegar/config/asarnegar_license.token',
+        '$appData/Notaris/notaris_license.token',
+        '$appData/AsarNegar/asarnegar_license.token',
+      ];
 
-      // 2. Fallback path in AsarNegar directory
-      final altFile = File('$appData/AsarNegar/asarnegar_license.token');
-      if (altFile.existsSync()) {
-        if (_isTokenValid(altFile)) {
+      for (final p in candidatePaths) {
+        final f = File(p);
+        if (f.existsSync() && _isTokenValid(f)) {
           return true;
         }
       }
@@ -142,7 +143,7 @@ class SubscriptionGuard {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        'نیاز به اشتراک فعال اثرنگار',
+                        'نیاز به اشتراک فعال نوتاریس',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 19,
@@ -152,7 +153,7 @@ class SubscriptionGuard {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'استفاده از سامانه دسک‌نگار و امکانات اتصال از راه دور، منوط به داشتن اشتراک فعال در سامانه اثرنگار است.\n\nجهت فعال‌سازی، لطفاً ابتدا نرم‌افزار اثرنگار را روی این رایانه اجرا نموده و از بخش «مدیریت اشتراک»، نسبت به تهیه یا تمدید اشتراک اقدام فرمایید.',
+                        'استفاده از سامانه نوتادسک و امکانات اتصال از راه دور، منوط به داشتن اشتراک فعال در سامانه نوتاریس است.\n\nجهت فعال‌سازی، لطفاً ابتدا نرم‌افزار نوتاریس را روی این رایانه اجرا نموده و از بخش «اطلاعات اشتراک»، نسبت به تهیه یا تمدید اشتراک اقدام فرمایید.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 13,
