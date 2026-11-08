@@ -57,6 +57,17 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Configure NotaDesk Default Server & Branding
+        shell: pwsh
+        run: |
+          $path = "libs/hbb_common/src/config.rs"
+          $content = Get-Content $path -Raw
+          $content = $content -replace 'pub static ref PROD_RENDEZVOUS_SERVER: RwLock<String> = RwLock::new\(""\.to_owned\(\)\);', 'pub static ref PROD_RENDEZVOUS_SERVER: RwLock<String> = RwLock::new("salamifar.ir".to_owned());'
+          $content = $content -replace 'pub static ref APP_NAME: RwLock<String> = RwLock::new\("RustDesk"\.to_owned\(\)\);', 'pub static ref APP_NAME: RwLock<String> = RwLock::new("NotaDesk".to_owned());'
+          $content = $content -replace 'pub const RENDEZVOUS_SERVERS: &\[&str\] = &\["rs-ny\.rustdesk\.com"\];', 'pub const RENDEZVOUS_SERVERS: &[&str] = &["salamifar.ir", "rs-ny.rustdesk.com"];'
+          Set-Content -Path $path -Value $content -NoNewline
+          Write-Host "Configured NotaDesk default server to salamifar.ir"
+
       - name: Restore bridge files
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -167,11 +178,11 @@ jobs:
           if-no-files-found: error
 
       - name: Create GitHub Release
-        if: ${{ inputs.create_release }}
+        if: ${{ inputs.create_release != false }}
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
-          name: "NotaDesk ${{ inputs.release_tag }}"
-          tag_name: ${{ inputs.release_tag }}
+          name: "NotaDesk ${{ inputs.release_tag || 'v1.0.1' }}"
+          tag_name: ${{ inputs.release_tag || 'v1.0.1' }}
           files: ./Output/NotaDesk.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

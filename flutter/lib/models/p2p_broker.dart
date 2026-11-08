@@ -57,9 +57,13 @@ class P2PBroker {
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data is Map && data['found'] == true && data['data'] != null) {
-          final targetAddress = data['data']['target_address'] as String?;
-          if (targetAddress != null && targetAddress.isNotEmpty) {
-            return targetAddress;
+          final isSameNetwork = data['data']['is_same_network'] == true;
+          // Only use direct IP target if both machines are confirmed on the SAME local LAN network!
+          if (isSameNetwork) {
+            final targetAddress = data['data']['target_address'] as String?;
+            if (targetAddress != null && targetAddress.isNotEmpty) {
+              return targetAddress;
+            }
           }
         }
       }
